@@ -8,6 +8,9 @@ import { Stars } from '@react-three/drei'
 import { FaHtml5, FaCss3Alt, FaJs, FaVuejs, FaDatabase, FaDocker, FaSass, FaBootstrap } from 'react-icons/fa'
 import { SiTypescript, SiTailwindcss } from 'react-icons/si'
 
+// import webWaresImg from '/images/webares.png';
+
+
 const skills = [
   { name: 'HTML', icon: FaHtml5, color: '#E34F26' },
   { name: 'CSS', icon: FaCss3Alt, color: '#1572B6' },
@@ -23,27 +26,29 @@ const skills = [
 ]
 
 const projects = [
-  { id: 1, name: 'E-commerce Platform', description: 'A full-stack e-commerce solution with React and Node.js' },
-  { id: 2, name: 'Task Management App', description: 'A Vue.js based task management application with real-time updates' },
-  { id: 3, name: 'Data Visualization Dashboard', description: 'An interactive dashboard using D3.js for complex data visualization' },
+  { id: 1, name: 'E-Commerce Platform', description: 'A full-stack e-commerce solution with VueJS 3', url: 'https://web-wares.vercel.app/', image: 'webwares.png'},
+  { id: 2, name: 'Front-end Styling', description: 'Using HTML, CSS, SASS, Bootstrap', url:'https://front-style.vercel.app', image: 'front.png'},
+ 
 ]
+
 
 const Wormhole = () => {
   const meshRef = useRef<THREE.Mesh>(null);
-  const { camera } = useThree()
+  const { camera } = useThree();
 
   useFrame((state) => {
     if (meshRef.current) { // Ensure meshRef.current is not null
       meshRef.current.rotation.z = state.clock.getElapsedTime() * 0.2;
-    }  })
+    }
+  });
 
   useEffect(() => {
-    camera.position.z = 5
-  }, [camera])
+    camera.position.z = 5;
+  }, [camera]);
 
   return (
     <mesh ref={meshRef} position={[2, 0, 0]}>
-      <cylinderGeometry args={[0.1, 0.1, 4, 32, 1, true]} />
+      <cylinderGeometry args={[0.2, 0.2, 6, 32, 1, true]} /> {/* Increased height from 4 to 6 */}
       <shaderMaterial
         side={THREE.DoubleSide}
         transparent={true}
@@ -64,15 +69,16 @@ const Wormhole = () => {
             vec2 p = vUv * 2.0 - 1.0;
             float r = length(p);
             float angle = atan(p.y, p.x);
-            float intensity = 0.5 / (r * 2.0 + 0.5);
-            vec3 color = vec3(0.5, 0.2, 1.0) * intensity;
+            float intensity = 1.0 / (r * 0.5 + 0.5); // Increased glow intensity
+            vec3 color = vec3(0.5, 0.2, 1.0) * intensity * smoothstep(0.0, 1.0, 1.0 - r); // Add smoothstep for better glow
             gl_FragColor = vec4(color, 1.0 - r);
           }
         `}
       />
     </mesh>
-  )
-}
+  );
+};
+
 type Skill = {
   name: string;
   icon: React.ElementType; // Use React.ElementType for icon components
@@ -254,28 +260,36 @@ export default function Portfolio() {
           </div>
         </section>
 
+      
         <section id="projects" className="py-20 bg-gray-900">
-          <div className="container mx-auto px-6">
-            <h2 className="text-4xl font-bold mb-12 text-center">Featured Projects</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {projects.map((project) => (
-                <div key={project.id} className="bg-gray-800 rounded-lg overflow-hidden shadow-lg">
-                  <img src={`/placeholder.svg?height=200&width=400`} alt={project.name} className="w-full h-48 object-cover" />
-                  <div className="p-6">
-                    <h3 className="text-xl font-semibold mb-2">{project.name}</h3>
-                    <p className="text-gray-400 mb-4">{project.description}</p>
-                    <button
-                      onClick={() => alert(`Viewing details for ${project.name}`)}
-                      className="text-purple-400 hover:text-purple-300"
-                    >
-                      Learn More →
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
+  <div className="container mx-auto px-6">
+    <h2 className="text-4xl font-bold mb-12 text-center">Featured Projects</h2>
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {projects.map((project) => (
+        <div key={project.id} className="bg-gray-800 rounded-lg overflow-hidden shadow-lg">
+          <img
+            src={`/images/${project.image}`}
+            alt={project.name} 
+            className="w-full h-48 object-cover" 
+          />
+          <div className="p-6">
+            <h3 className="text-xl font-semibold mb-2">{project.name}</h3>
+            <p className="text-gray-400 mb-4">{project.description}</p>
+            <a
+              href={project.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-purple-400 hover:text-purple-300"
+            >
+              Learn More →
+            </a>
           </div>
-        </section>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
 
         <section id="contact" className="py-20">
           <div className="container mx-auto px-6">
