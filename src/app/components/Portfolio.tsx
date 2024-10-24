@@ -29,12 +29,13 @@ const projects = [
 ]
 
 const Wormhole = () => {
-  const meshRef = useRef()
+  const meshRef = useRef<THREE.Mesh>(null);
   const { camera } = useThree()
 
   useFrame((state) => {
-    meshRef.current.rotation.z = state.clock.getElapsedTime() * 0.2
-  })
+    if (meshRef.current) { // Ensure meshRef.current is not null
+      meshRef.current.rotation.z = state.clock.getElapsedTime() * 0.2;
+    }  })
 
   useEffect(() => {
     camera.position.z = 5
@@ -80,7 +81,7 @@ const SkillCard = ({ skill }) => {
       initial={{ x: -300, opacity: 0 }}
       animate={{ x: 0, opacity: 1 }}
       exit={{ x: 300, opacity: 0 }}
-      transition={{ duration: 1.5 }}
+      transition={{ duration: 1 }}
       style={{
         width: '200px',
         height: '120px',
