@@ -73,8 +73,12 @@ const Wormhole = () => {
     </mesh>
   )
 }
-
-const SkillCard = ({ skill }) => {
+type Skill = {
+  name: string;
+  icon: React.ElementType; // Use React.ElementType for icon components
+  color: string;
+};
+const SkillCard: React.FC<{ skill: Skill }> = ({ skill }) => {
   return (
     <motion.div
       className="absolute top-1/2 transform -translate-y-1/2"
@@ -99,13 +103,14 @@ const SkillCard = ({ skill }) => {
       <skill.icon size={40} />
       <div className="text-lg font-bold mt-2">{skill.name}</div>
     </motion.div>
-  )
-}
+  );
+};
+
 
 export default function Portfolio() {
   const [currentSkillIndex, setCurrentSkillIndex] = useState(0)
   const [activeSection, setActiveSection] = useState('home')
-  const [formStatus, setFormStatus] = ('')
+  const [formStatus, setFormStatus] = useState('')
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -134,7 +139,7 @@ export default function Portfolio() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  const scrollToSection = (sectionId) => {
+  const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId)
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' })
