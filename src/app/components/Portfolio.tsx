@@ -1,43 +1,62 @@
-'use client'
+"use client";
 
-import React, { useRef, useEffect, useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import * as THREE from 'three'
-import { Canvas, useFrame, useThree } from '@react-three/fiber'
-import { Stars } from '@react-three/drei'
-import { FaHtml5, FaCss3Alt, FaJs, FaVuejs, FaDatabase, FaDocker, FaSass, FaBootstrap } from 'react-icons/fa'
-import { SiTypescript, SiTailwindcss } from 'react-icons/si'
+import React, { useRef, useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import * as THREE from "three";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import { Stars } from "@react-three/drei";
+import {
+  FaHtml5,
+  FaCss3Alt,
+  FaJs,
+  FaVuejs,
+  FaDatabase,
+  FaDocker,
+  FaSass,
+  FaBootstrap,
+} from "react-icons/fa";
+import { SiTypescript, SiTailwindcss } from "react-icons/si";
 
 // import webWaresImg from '/images/webares.png';
 
-
 const skills = [
-  { name: 'HTML', icon: FaHtml5, color: '#E34F26' },
-  { name: 'CSS', icon: FaCss3Alt, color: '#1572B6' },
-  { name: 'JavaScript', icon: FaJs, color: '#F7DF1E' },
-  { name: 'Vue.js', icon: FaVuejs, color: '#4FC08D' },
-  { name: 'SQL', icon: FaDatabase, color: '#00758F' },
-  { name: 'NoSQL', icon: FaDatabase, color: '#4DB33D' },
-  { name: 'SCSS', icon: FaSass, color: '#CC6699' },
-  { name: 'Bootstrap', icon: FaBootstrap, color: '#7952B3' },
-  { name: 'Docker', icon: FaDocker, color: '#2496ED' },
-  { name: 'UI/UX', icon: SiTailwindcss, color: '#38B2AC' },
-  { name: 'Scrum', icon: SiTypescript, color: '#3178C6' },
-]
+  { name: "HTML", icon: FaHtml5, color: "#E34F26" },
+  { name: "CSS", icon: FaCss3Alt, color: "#1572B6" },
+  { name: "JavaScript", icon: FaJs, color: "#F7DF1E" },
+  { name: "Vue.js", icon: FaVuejs, color: "#4FC08D" },
+  { name: "SQL", icon: FaDatabase, color: "#00758F" },
+  { name: "NoSQL", icon: FaDatabase, color: "#4DB33D" },
+  { name: "SCSS", icon: FaSass, color: "#CC6699" },
+  { name: "Bootstrap", icon: FaBootstrap, color: "#7952B3" },
+  { name: "Docker", icon: FaDocker, color: "#2496ED" },
+  { name: "UI/UX", icon: SiTailwindcss, color: "#38B2AC" },
+  { name: "Scrum", icon: SiTypescript, color: "#3178C6" },
+];
 
 const projects = [
-  { id: 1, name: 'E-Commerce Platform', description: 'A full-stack e-commerce solution with VueJS 3', url: 'https://web-wares.vercel.app/', image: 'webwares.png'},
-  { id: 2, name: 'Front-end Styling', description: 'Using HTML, CSS, SASS, Bootstrap', url:'https://front-style.vercel.app', image: 'front.png'},
- 
-]
-
+  {
+    id: 1,
+    name: "E-Commerce Platform",
+    description: "A full-stack e-commerce solution with VueJS 3",
+    url: "https://web-wares.vercel.app/",
+    image: "webwares.png",
+  },
+  {
+    id: 2,
+    name: "Front-end Styling",
+    description: "Using HTML, CSS, SASS, Bootstrap",
+    url: "https://front-style.vercel.app",
+    image: "front.png",
+  },
+];
 
 const Wormhole = () => {
   const meshRef = useRef<THREE.Mesh>(null);
   const { camera } = useThree();
 
   useFrame((state) => {
-    if (meshRef.current) { // Ensure meshRef.current is not null
+    if (meshRef.current) {
+      // Ensure meshRef.current is not null
       meshRef.current.rotation.z = state.clock.getElapsedTime() * 0.2;
     }
   });
@@ -48,7 +67,8 @@ const Wormhole = () => {
 
   return (
     <mesh ref={meshRef} position={[2, 0, 0]}>
-      <cylinderGeometry args={[0.2, 0.2, 6, 32, 1, true]} /> {/* Increased height from 4 to 6 */}
+      <cylinderGeometry args={[0.2, 0.2, 6, 32, 1, true]} />{" "}
+      {/* Increased height from 4 to 6 */}
       <shaderMaterial
         side={THREE.DoubleSide}
         transparent={true}
@@ -93,17 +113,17 @@ const SkillCard: React.FC<{ skill: Skill }> = ({ skill }) => {
       exit={{ x: 300, opacity: 0 }}
       transition={{ duration: 1 }}
       style={{
-        width: '200px',
-        height: '120px',
+        width: "200px",
+        height: "120px",
         backgroundColor: skill.color,
-        borderRadius: '10px',
-        padding: '10px',
-        color: 'white',
-        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-        alignItems: 'center',
+        borderRadius: "10px",
+        padding: "10px",
+        color: "white",
+        boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        alignItems: "center",
       }}
     >
       <skill.icon size={40} />
@@ -112,79 +132,80 @@ const SkillCard: React.FC<{ skill: Skill }> = ({ skill }) => {
   );
 };
 
-
 export default function Portfolio() {
-  const [currentSkillIndex, setCurrentSkillIndex] = useState(0)
-  const [activeSection, setActiveSection] = useState('home')
-  const [formStatus, setFormStatus] = useState('')
+  const [currentSkillIndex, setCurrentSkillIndex] = useState(0);
+  const [activeSection, setActiveSection] = useState("home");
+  const [formStatus, setFormStatus] = useState("");
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentSkillIndex((prevIndex) => (prevIndex + 1) % skills.length)
-    }, 3000)
-    return () => clearInterval(interval)
-  }, [])
+      setCurrentSkillIndex((prevIndex) => (prevIndex + 1) % skills.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
 
   const handleScroll = () => {
-    const sections = ['home', 'about', 'skills', 'projects', 'contact']
-    const currentSection = sections.find(section => {
-      const element = document.getElementById(section)
+    const sections = ["home", "about", "skills", "projects", "contact"];
+    const currentSection = sections.find((section) => {
+      const element = document.getElementById(section);
       if (element) {
-        const rect = element.getBoundingClientRect()
-        return rect.top <= 100 && rect.bottom >= 100
+        const rect = element.getBoundingClientRect();
+        return rect.top <= 100 && rect.bottom >= 100;
       }
-      return false
-    })
+      return false;
+    });
     if (currentSection) {
-      setActiveSection(currentSection)
+      setActiveSection(currentSection);
     }
-  }
+  };
 
   useEffect(() => {
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId)
+    const element = document.getElementById(sectionId);
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' })
+      element.scrollIntoView({ behavior: "smooth" });
     }
-  }
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    setFormStatus('sending')
+    setFormStatus("sending");
 
-    const formData = new FormData(e.currentTarget)
-    const data = Object.fromEntries(formData.entries())
-    
+    const formData = new FormData(e.currentTarget);
+    const data = Object.fromEntries(formData.entries());
+
     try {
-      const response = await fetch('/api/contact', {
-        method: 'POST',
+      const response = await fetch("/api/contact", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(data),
-      })
-  
+      });
+
       if (response.ok) {
-        setFormStatus('')
+        setFormStatus("");
         // alert('Thank you for your message! I will get back to you soon.')
-        e.currentTarget.reset()
+        e.currentTarget.reset();
       } else {
-        const errorData = await response.json()
-        console.error('Server error:', errorData)
-        setFormStatus('error')
+        const errorData = await response.json();
+        console.error("Server error:", errorData);
+        setFormStatus("error");
         // throw new Error('Failed to send message')
       }
     } catch (error) {
-      console.error('Error:', error)
-      alert('Sorry, there was an error sending your message. Please try again later.')
-      setFormStatus('error')
+      console.error("Error:", error);
+      alert(
+        "Sorry, there was an error sending your message. Please try again later."
+      );
+      setFormStatus("error");
     }
-  }
+  };
 
   return (
     <div className="min-h-screen bg-black text-white overflow-hidden">
@@ -193,16 +214,20 @@ export default function Portfolio() {
           <div className="flex justify-between items-center">
             <div className="text-2xl font-bold text-purple-500">ShirDev</div>
             <ul className="flex space-x-6">
-              {['home', 'about', 'skills', 'projects', 'contact'].map((section) => (
-                <li key={section}>
-                  <button
-                    onClick={() => scrollToSection(section)}
-                    className={`text-gray-400 hover:text-white transition-colors ${activeSection === section ? 'text-white' : ''}`}
-                  >
-                    {section.charAt(0).toUpperCase() + section.slice(1)}
-                  </button>
-                </li>
-              ))}
+              {["home", "about", "skills", "projects", "contact"].map(
+                (section) => (
+                  <li key={section}>
+                    <button
+                      onClick={() => scrollToSection(section)}
+                      className={`text-gray-400 hover:text-white transition-colors ${
+                        activeSection === section ? "text-white" : ""
+                      }`}
+                    >
+                      {section.charAt(0).toUpperCase() + section.slice(1)}
+                    </button>
+                  </li>
+                )
+              )}
             </ul>
           </div>
         </nav>
@@ -214,21 +239,36 @@ export default function Portfolio() {
             <ambientLight intensity={0.5} />
             <pointLight position={[10, 10, 10]} />
             <Wormhole />
-            <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade speed={1} />
+            <Stars
+              radius={100}
+              depth={50}
+              count={5000}
+              factor={4}
+              saturation={0}
+              fade
+              speed={1}
+            />
           </Canvas>
           <div className="absolute inset-0 flex flex-col justify-center items-center">
             <div className="relative w-full h-32 mb-16">
               <AnimatePresence>
-                <SkillCard key={skills[currentSkillIndex].name} skill={skills[currentSkillIndex]} />
+                <SkillCard
+                  key={skills[currentSkillIndex].name}
+                  skill={skills[currentSkillIndex]}
+                />
               </AnimatePresence>
             </div>
             <div className="text-center">
               <h1 className="text-6xl font-bold mb-4">Shir Shah Momand</h1>
-              <p className="text-2xl text-gray-400 mb-8">Full Stack Developer</p>
+              <p className="text-2xl text-gray-400 mb-8">
+                Full Stack Developer
+              </p>
               <p className="text-lg text-gray-500 max-w-2xl mx-auto mb-8">
-              Creating User-Friendly Web Applications with Passion and Creativity              </p>
+                Creating User-Friendly Web Applications with Passion and
+                Creativity{" "}
+              </p>
               <button
-                onClick={() => scrollToSection('projects')}
+                onClick={() => scrollToSection("projects")}
                 className="bg-purple-600 text-white px-6 py-3 rounded-md font-semibold hover:bg-purple-700 transition-colors"
               >
                 View My Projects
@@ -237,11 +277,28 @@ export default function Portfolio() {
           </div>
         </section>
 
-        <section id="about" className="py-20 bg-gray-900">
+        <section
+          id="about"
+          className="py-20"
+          style={{
+            backgroundColor: "#000000",
+            backgroundImage:
+              "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25' viewBox='0 0 800 800'%3E%3Cg fill-opacity='0.45'%3E%3Ccircle fill='%23000000' cx='400' cy='400' r='600'/%3E%3Ccircle fill='%23230046' cx='400' cy='400' r='500'/%3E%3Ccircle fill='%232f0052' cx='400' cy='400' r='400'/%3E%3Ccircle fill='%233b075e' cx='400' cy='400' r='300'/%3E%3Ccircle fill='%2348156a' cx='400' cy='400' r='200'/%3E%3Ccircle fill='%23552277' cx='400' cy='400' r='100'/%3E%3C/g%3E%3C/svg%3E\")",
+            backgroundAttachment: "fixed",
+            backgroundSize: "cover",
+          }}
+        >
           <div className="container mx-auto px-6">
-            <h2 className="text-4xl font-bold mb-8 text-center">About Me</h2>
-            <p className="text-lg max-w-2xl mx-auto text-center">
-            I am a motivated Full Stack Developer with a strong foundation in web development gained through an intensive bootcamp. I am passionate about creating beautiful, efficient, and user-friendly web applications. I enjoy tackling challenges and continuously learning new technologies to build comprehensive solutions that meet user needs.
+            <h2 className="text-4xl font-bold mb-8 text-center text-white">
+              About Me
+            </h2>
+            <p className="text-lg max-w-2xl mx-auto text-center text-white">
+              I am a motivated Full Stack Developer with a strong foundation in
+              web development gained through an intensive bootcamp. I am
+              passionate about creating beautiful, efficient, and user-friendly
+              web applications. I enjoy tackling challenges and continuously
+              learning new technologies to build comprehensive solutions that
+              meet user needs.
             </p>
           </div>
         </section>
@@ -251,8 +308,14 @@ export default function Portfolio() {
             <h2 className="text-4xl font-bold mb-12 text-center">My Skills</h2>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
               {skills.map((skill) => (
-                <div key={skill.name} className="flex flex-col items-center p-6 bg-gray-800 rounded-lg shadow-lg">
-                  <skill.icon className="text-5xl mb-4" style={{ color: skill.color }} />
+                <div
+                  key={skill.name}
+                  className="flex flex-col items-center p-6 bg-gray-800 rounded-lg shadow-lg"
+                >
+                  <skill.icon
+                    className="text-5xl mb-4"
+                    style={{ color: skill.color }}
+                  />
                   <span className="text-lg font-semibold">{skill.name}</span>
                 </div>
               ))}
@@ -260,62 +323,111 @@ export default function Portfolio() {
           </div>
         </section>
 
-      
         <section id="projects" className="py-20 bg-gray-900">
-  <div className="container mx-auto px-6">
-    <h2 className="text-4xl font-bold mb-12 text-center">Featured Projects</h2>
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      {projects.map((project) => (
-        <div key={project.id} className="bg-gray-800 rounded-lg overflow-hidden shadow-lg">
-          <img
-            src={`/images/${project.image}`}
-            alt={project.name} 
-            className="w-full h-48 object-cover" 
-          />
-          <div className="p-6">
-            <h3 className="text-xl font-semibold mb-2">{project.name}</h3>
-            <p className="text-gray-400 mb-4">{project.description}</p>
-            <a
-              href={project.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-purple-400 hover:text-purple-300"
-            >
-              Learn More →
-            </a>
+          <div className="container mx-auto px-6">
+            <h2 className="text-4xl font-bold mb-12 text-center">
+              Featured Projects
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {projects.map((project) => (
+                <div
+                  key={project.id}
+                  className="bg-gray-800 rounded-lg overflow-hidden shadow-lg"
+                >
+                  <img
+                    src={`/images/${project.image}`}
+                    alt={project.name}
+                    className="w-full h-48 object-cover"
+                  />
+                  <div className="p-6">
+                    <h3 className="text-xl font-semibold mb-2">
+                      {project.name}
+                    </h3>
+                    <p className="text-gray-400 mb-4">{project.description}</p>
+                    <a
+                      href={project.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-purple-400 hover:text-purple-300"
+                    >
+                      Learn More →
+                    </a>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
-      ))}
-    </div>
-  </div>
-</section>
-
+        </section>
 
         <section id="contact" className="py-20">
           <div className="container mx-auto px-6">
-            <h2 className="text-4xl font-bold mb-12 text-center">Get In Touch</h2>
+            <h2 className="text-4xl font-bold mb-12 text-center">
+              Get In Touch
+            </h2>
             <div className="max-w-md mx-auto">
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
-                  <label htmlFor="name" className="block text-sm font-medium mb-2">Name</label>
-                  <input type="text" id="name" name="name" required className="w-full px-3 py-2 bg-gray-800 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500" />
+                  <label
+                    htmlFor="name"
+                    className="block text-sm font-medium mb-2"
+                  >
+                    Name
+                  </label>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    required
+                    className="w-full px-3 py-2 bg-gray-800 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  />
                 </div>
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium mb-2">Email</label>
-                  <input type="email" id="email" name="email" required className="w-full px-3 py-2 bg-gray-800 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500" />
+                  <label
+                    htmlFor="email"
+                    className="block text-sm font-medium mb-2"
+                  >
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    required
+                    className="w-full px-3 py-2 bg-gray-800 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  />
                 </div>
                 <div>
-                  <label htmlFor="message" className="block text-sm font-medium mb-2">Message</label>
-                  <textarea id="message" name="message" rows={4} required className="w-full px-3 py-2 bg-gray-800 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"></textarea>
+                  <label
+                    htmlFor="message"
+                    className="block text-sm font-medium mb-2"
+                  >
+                    Message
+                  </label>
+                  <textarea
+                    id="message"
+                    name="message"
+                    rows={4}
+                    required
+                    className="w-full px-3 py-2 bg-gray-800 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  ></textarea>
                 </div>
-                <button type="submit" className="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-md transition-colors" disabled={formStatus === 'sending'}>
-                  {formStatus === 'sending' ? 'Sending...' : 'Send Message'}
+                <button
+                  type="submit"
+                  className="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-md transition-colors"
+                  disabled={formStatus === "sending"}
+                >
+                  {formStatus === "sending" ? "Sending..." : "Send Message"}
                 </button>
-                {formStatus === 'success' && (
-                  <p className="text-green-500 text-center">Thank you for your message! I will get back to you soon.</p>
+                {formStatus === "success" && (
+                  <p className="text-green-500 text-center">
+                    Thank you for your message! I will get back to you soon.
+                  </p>
                 )}
-                {formStatus === 'error' && (
-                  <p className="text-red-500 text-center">Sorry, there was an error sending your message. Please try again later. </p>
+                {formStatus === "error" && (
+                  <p className="text-red-500 text-center">
+                    Sorry, there was an error sending your message. Please try
+                    again later.{" "}
+                  </p>
                 )}
               </form>
             </div>
@@ -329,5 +441,5 @@ export default function Portfolio() {
         </div>
       </footer>
     </div>
-  )
+  );
 }
