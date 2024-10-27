@@ -14,11 +14,12 @@ import {
   FaDocker,
   FaSass,
   FaBootstrap,
+  FaLinkedin,
+  FaEnvelope,
 } from "react-icons/fa";
 import { SiTypescript, SiTailwindcss } from "react-icons/si";
 
-// import webWaresImg from '/images/webares.png';
-
+// Skills and projects data
 const skills = [
   { name: "HTML", icon: FaHtml5, color: "#E34F26" },
   { name: "CSS", icon: FaCss3Alt, color: "#1572B6" },
@@ -50,13 +51,13 @@ const projects = [
   },
 ];
 
+// Wormhole animation component
 const Wormhole = () => {
   const meshRef = useRef<THREE.Mesh>(null);
   const { camera } = useThree();
 
   useFrame((state) => {
     if (meshRef.current) {
-      // Ensure meshRef.current is not null
       meshRef.current.rotation.z = state.clock.getElapsedTime() * 0.2;
     }
   });
@@ -67,14 +68,11 @@ const Wormhole = () => {
 
   return (
     <mesh ref={meshRef} position={[2, 0, 0]}>
-      <cylinderGeometry args={[0.2, 0.2, 6, 32, 1, true]} />{" "}
-      {/* Increased height from 4 to 6 */}
+      <cylinderGeometry args={[0.2, 0.2, 6, 32, 1, true]} />
       <shaderMaterial
         side={THREE.DoubleSide}
         transparent={true}
-        uniforms={{
-          time: { value: 0 },
-        }}
+        uniforms={{ time: { value: 0 } }}
         vertexShader={`
           varying vec2 vUv;
           void main() {
@@ -88,9 +86,8 @@ const Wormhole = () => {
           void main() {
             vec2 p = vUv * 2.0 - 1.0;
             float r = length(p);
-            float angle = atan(p.y, p.x);
-            float intensity = 1.0 / (r * 0.5 + 0.5); // Increased glow intensity
-            vec3 color = vec3(0.5, 0.2, 1.0) * intensity * smoothstep(0.0, 1.0, 1.0 - r); // Add smoothstep for better glow
+            float intensity = 1.0 / (r * 0.5 + 0.5);
+            vec3 color = vec3(0.5, 0.2, 1.0) * intensity * smoothstep(0.0, 1.0, 1.0 - r);
             gl_FragColor = vec4(color, 1.0 - r);
           }
         `}
@@ -99,9 +96,10 @@ const Wormhole = () => {
   );
 };
 
+// Skill card component
 type Skill = {
   name: string;
-  icon: React.ElementType; // Use React.ElementType for icon components
+  icon: React.ElementType;
   color: string;
 };
 const SkillCard: React.FC<{ skill: Skill }> = ({ skill }) => {
@@ -132,10 +130,11 @@ const SkillCard: React.FC<{ skill: Skill }> = ({ skill }) => {
   );
 };
 
+// Main Portfolio component
 export default function Portfolio() {
   const [currentSkillIndex, setCurrentSkillIndex] = useState(0);
   const [activeSection, setActiveSection] = useState("home");
-  const [formStatus, setFormStatus] = useState("");
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -168,72 +167,70 @@ export default function Portfolio() {
     const element = document.getElementById(sectionId);
     if (element) {
       element.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    setFormStatus("sending");
-
-    const formData = new FormData(e.currentTarget);
-    const data = Object.fromEntries(formData.entries());
-
-    try {
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-
-      if (response.ok) {
-        setFormStatus("");
-        // alert('Thank you for your message! I will get back to you soon.')
-        e.currentTarget.reset();
-      } else {
-        const errorData = await response.json();
-        console.error("Server error:", errorData);
-        setFormStatus("error");
-        // throw new Error('Failed to send message')
-      }
-    } catch (error) {
-      console.error("Error:", error);
-      alert(
-        "Sorry, there was an error sending your message. Please try again later."
-      );
-      setFormStatus("error");
+      setMenuOpen(false);
     }
   };
 
   return (
     <div className="min-h-screen bg-black text-white overflow-hidden">
       <header className="fixed top-0 left-0 right-0 z-10 bg-black bg-opacity-50 backdrop-filter backdrop-blur-lg">
-        <nav className="container mx-auto px-6 py-3">
-          <div className="flex justify-between items-center">
-            <div className="text-2xl font-bold text-purple-500">ShirDev</div>
-            <ul className="flex space-x-6">
-              {["home", "about", "skills", "projects", "contact"].map(
-                (section) => (
-                  <li key={section}>
-                    <button
-                      onClick={() => scrollToSection(section)}
-                      className={`text-gray-400 hover:text-white transition-colors ${
-                        activeSection === section ? "text-white" : ""
-                      }`}
-                    >
-                      {section.charAt(0).toUpperCase() + section.slice(1)}
-                    </button>
-                  </li>
-                )
-              )}
-            </ul>
+        <nav className="container mx-auto px-6 py-3 flex justify-between items-center">
+          <div className="text-2xl font-bold text-purple-500">ShirDev</div>
+
+          {/* Burger Icon */}
+          <div
+            className="flex lg:hidden"
+            onClick={() => setMenuOpen(!menuOpen)}
+          >
+            <div
+              className={`space-y-1 cursor-pointer transform transition ${
+                menuOpen ? "rotate-45" : ""
+              }`}
+            >
+              <span
+                className={`block w-8 h-0.5 bg-white transition transform ${
+                  menuOpen ? "rotate-45 translate-y-2" : ""
+                }`}
+              ></span>
+              <span
+                className={`block w-8 h-0.5 bg-white transition ${
+                  menuOpen ? "opacity-0" : ""
+                }`}
+              ></span>
+              <span
+                className={`block w-8 h-0.5 bg-white transition transform ${
+                  menuOpen ? "-rotate-45 -translate-y-2" : ""
+                }`}
+              ></span>
+            </div>
           </div>
+
+          {/* Menu */}
+          <ul
+            className={`lg:flex lg:space-x-6 lg:static fixed top-16 right-0 bg-black bg-opacity-50 lg:bg-transparent w-full lg:w-auto space-y-6 lg:space-y-0 lg:items-center p-6 lg:p-0 transition-all transform ${
+              menuOpen ? "translate-x-0" : "translate-x-full"
+            } lg:translate-x-0`}
+          >
+            {["home", "about", "skills", "projects", "contact"].map(
+              (section) => (
+                <li key={section}>
+                  <button
+                    onClick={() => scrollToSection(section)}
+                    className={`text-gray-400 hover:text-white transition-colors ${
+                      activeSection === section ? "text-white" : ""
+                    }`}
+                  >
+                    {section.charAt(0).toUpperCase() + section.slice(1)}
+                  </button>
+                </li>
+              )
+            )}
+          </ul>
         </nav>
       </header>
 
       <main>
+        {/* Home Section */}
         <section id="home" className="h-screen relative overflow-hidden">
           <Canvas>
             <ambientLight intensity={0.5} />
@@ -277,6 +274,7 @@ export default function Portfolio() {
           </div>
         </section>
 
+        {/* About Section */}
         <section
           id="about"
           className="py-20"
@@ -284,8 +282,9 @@ export default function Portfolio() {
             backgroundColor: "#000000",
             backgroundImage:
               "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25' viewBox='0 0 800 800'%3E%3Cg fill-opacity='0.45'%3E%3Ccircle fill='%23000000' cx='400' cy='400' r='600'/%3E%3Ccircle fill='%23230046' cx='400' cy='400' r='500'/%3E%3Ccircle fill='%232f0052' cx='400' cy='400' r='400'/%3E%3Ccircle fill='%233b075e' cx='400' cy='400' r='300'/%3E%3Ccircle fill='%2348156a' cx='400' cy='400' r='200'/%3E%3Ccircle fill='%23552277' cx='400' cy='400' r='100'/%3E%3C/g%3E%3C/svg%3E\")",
-            backgroundAttachment: "fixed",
+            backgroundAttachment: window.innerWidth < 768 ? "scroll" : "fixed",
             backgroundSize: "cover",
+            backgroundPosition: "center",
           }}
         >
           <div className="container mx-auto px-6">
@@ -294,15 +293,14 @@ export default function Portfolio() {
             </h2>
             <p className="text-lg max-w-2xl mx-auto text-center text-white">
               I am a motivated Full Stack Developer with a strong foundation in
-              web development gained through an intensive bootcamp. I am
-              passionate about creating beautiful, efficient, and user-friendly
-              web applications. I enjoy tackling challenges and continuously
+              web development. I enjoy tackling challenges and continuously
               learning new technologies to build comprehensive solutions that
               meet user needs.
             </p>
           </div>
         </section>
 
+        {/* Skills Section */}
         <section id="skills" className="py-20">
           <div className="container mx-auto px-6">
             <h2 className="text-4xl font-bold mb-12 text-center">My Skills</h2>
@@ -323,6 +321,7 @@ export default function Portfolio() {
           </div>
         </section>
 
+        {/* Projects Section */}
         <section id="projects" className="py-20 bg-gray-900">
           <div className="container mx-auto px-6">
             <h2 className="text-4xl font-bold mb-12 text-center">
@@ -359,78 +358,30 @@ export default function Portfolio() {
           </div>
         </section>
 
-        <section id="contact" className="py-20">
-          <div className="container mx-auto px-6">
-            <h2 className="text-4xl font-bold mb-12 text-center">
-              Get In Touch
-            </h2>
-            <div className="max-w-md mx-auto">
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div>
-                  <label
-                    htmlFor="name"
-                    className="block text-sm font-medium mb-2"
-                  >
-                    Name
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    required
-                    className="w-full px-3 py-2 bg-gray-800 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
-                  />
-                </div>
-                <div>
-                  <label
-                    htmlFor="email"
-                    className="block text-sm font-medium mb-2"
-                  >
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    required
-                    className="w-full px-3 py-2 bg-gray-800 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
-                  />
-                </div>
-                <div>
-                  <label
-                    htmlFor="message"
-                    className="block text-sm font-medium mb-2"
-                  >
-                    Message
-                  </label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    rows={4}
-                    required
-                    className="w-full px-3 py-2 bg-gray-800 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
-                  ></textarea>
-                </div>
-                <button
-                  type="submit"
-                  className="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-md transition-colors"
-                  disabled={formStatus === "sending"}
-                >
-                  {formStatus === "sending" ? "Sending..." : "Send Message"}
-                </button>
-                {formStatus === "success" && (
-                  <p className="text-green-500 text-center">
-                    Thank you for your message! I will get back to you soon.
-                  </p>
-                )}
-                {formStatus === "error" && (
-                  <p className="text-red-500 text-center">
-                    Sorry, there was an error sending your message. Please try
-                    again later.{" "}
-                  </p>
-                )}
-              </form>
-            </div>
+        {/* Contact Section */}
+
+        <section
+          id="contact"
+          className="h-screen flex flex-col items-center justify-center"
+        >
+          <h2 className="text-4xl font-bold mb-10">Contact</h2>
+          <div className="flex space-x-4">
+            <a
+              href="https://www.linkedin.com/in/shir-shah-momand-a35b512bb"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <FaLinkedin
+                size={40}
+                className="text-blue-600 hover:text-blue-400 transition"
+              />
+            </a>
+            <a href="mailto:shir_momand@yahoo.com">
+              <FaEnvelope
+                size={40}
+                className="text-red-600 hover:text-red-400 transition"
+              />
+            </a>
           </div>
         </section>
       </main>
