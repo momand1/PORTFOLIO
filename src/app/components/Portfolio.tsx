@@ -133,34 +133,25 @@ const SkillCard: React.FC<{ skill: Skill }> = ({ skill }) => {
 // Main Portfolio component
 export default function Portfolio() {
   const [currentSkillIndex, setCurrentSkillIndex] = useState(0);
-  const [activeSection, setActiveSection] = useState("home");
+  const [activeSection] = useState("home");
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768); // Step 2: Update mobile state
+    };
+
+    handleResize(); // Set initial state
+    window.addEventListener("resize", handleResize); // Attach event listener
+    return () => window.removeEventListener("resize", handleResize); // Cleanup listener
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentSkillIndex((prevIndex) => (prevIndex + 1) % skills.length);
     }, 3000);
     return () => clearInterval(interval);
-  }, []);
-
-  const handleScroll = () => {
-    const sections = ["home", "about", "skills", "projects", "contact"];
-    const currentSection = sections.find((section) => {
-      const element = document.getElementById(section);
-      if (element) {
-        const rect = element.getBoundingClientRect();
-        return rect.top <= 100 && rect.bottom >= 100;
-      }
-      return false;
-    });
-    if (currentSection) {
-      setActiveSection(currentSection);
-    }
-  };
-
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const scrollToSection = (sectionId: string) => {
@@ -282,7 +273,7 @@ export default function Portfolio() {
             backgroundColor: "#000000",
             backgroundImage:
               "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25' viewBox='0 0 800 800'%3E%3Cg fill-opacity='0.45'%3E%3Ccircle fill='%23000000' cx='400' cy='400' r='600'/%3E%3Ccircle fill='%23230046' cx='400' cy='400' r='500'/%3E%3Ccircle fill='%232f0052' cx='400' cy='400' r='400'/%3E%3Ccircle fill='%233b075e' cx='400' cy='400' r='300'/%3E%3Ccircle fill='%2348156a' cx='400' cy='400' r='200'/%3E%3Ccircle fill='%23552277' cx='400' cy='400' r='100'/%3E%3C/g%3E%3C/svg%3E\")",
-            backgroundAttachment: window.innerWidth < 768 ? "scroll" : "fixed",
+            backgroundAttachment: isMobile ? "scroll" : "fixed",
             backgroundSize: "cover",
             backgroundPosition: "center",
           }}
