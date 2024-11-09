@@ -13,7 +13,9 @@ import {
   FaDatabase,
   FaDocker,
   FaSass,
+  FaPhp, 
   FaBootstrap,
+  FaGithub,
   FaLinkedin,
   FaEnvelope,
 } from "react-icons/fa";
@@ -23,15 +25,18 @@ import { SiTypescript, SiTailwindcss } from "react-icons/si";
 const skills = [
   { name: "HTML", icon: FaHtml5, color: "#E34F26" },
   { name: "CSS", icon: FaCss3Alt, color: "#1572B6" },
+  { name: "SCSS", icon: FaSass, color: "#CC6699" },
+  { name: "Bootstrap", icon: FaBootstrap, color: "#7952B3" },
   { name: "JavaScript", icon: FaJs, color: "#F7DF1E" },
   { name: "Vue.js", icon: FaVuejs, color: "#4FC08D" },
   { name: "SQL", icon: FaDatabase, color: "#00758F" },
   { name: "NoSQL", icon: FaDatabase, color: "#4DB33D" },
-  { name: "SCSS", icon: FaSass, color: "#CC6699" },
-  { name: "Bootstrap", icon: FaBootstrap, color: "#7952B3" },
+  {name: "MongoDB", icon: FaDatabase, color: "#47A248"}, 
+  { name: "PHP", icon: FaPhp, color: "#777BB4" },
+  { name: "Scrum", icon: SiTypescript, color: "#3178C6" },
+  {name:"Github", icon: FaGithub, color: "#24292E"},
   { name: "Docker", icon: FaDocker, color: "#2496ED" },
   { name: "UI/UX", icon: SiTailwindcss, color: "#38B2AC" },
-  { name: "Scrum", icon: SiTypescript, color: "#3178C6" },
 ];
 
 const projects = [
