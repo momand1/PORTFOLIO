@@ -14,12 +14,14 @@ import {
   FaDocker,
   FaSass,
   FaPhp, 
+  FaSymfony,
   FaBootstrap,
   FaGithub,
+  FaTasks,
   FaLinkedin,
   FaEnvelope,
 } from "react-icons/fa";
-import { SiTypescript, SiTailwindcss } from "react-icons/si";
+import {  SiTailwindcss } from "react-icons/si";
 
 // Skills and projects data
 const skills = [
@@ -33,8 +35,10 @@ const skills = [
   { name: "NoSQL", icon: FaDatabase, color: "#4DB33D" },
   {name: "MongoDB", icon: FaDatabase, color: "#47A248"}, 
   { name: "PHP", icon: FaPhp, color: "#777BB4" },
-  { name: "Scrum", icon: SiTypescript, color: "#3178C6" },
-  {name:"Github", icon: FaGithub, color: "#24292E"},
+  { name: "MVC", icon: FaDatabase, color: "#F7DF1E" },
+  { name: "Symfony", icon: FaSymfony, color: "#F7DF1E" },
+  { name: "Scrum", icon: FaTasks, color: "#3178C6" },
+  {name:"Github", icon: FaGithub, color: "#181717"},
   { name: "Docker", icon: FaDocker, color: "#2496ED" },
   { name: "UI/UX", icon: SiTailwindcss, color: "#38B2AC" },
 ];
